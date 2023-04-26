@@ -1,6 +1,14 @@
 import PropTypes from "prop-types";
 
 const ControlPresupuesto = ({presupuesto}) => {
+
+  const formatearCantitdad = (cantidad) =>{
+    
+    return cantidad.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    })
+  }
   return (
     <div className='contenedor-presupuesto contenedor sombra dos-columnas'>
       <div>
@@ -8,7 +16,13 @@ const ControlPresupuesto = ({presupuesto}) => {
       </div>
       <div className='contenido-presupuesto'>
         <p>
-          <span>Presupuesto:</span>{presupuesto}
+          <span>Presupuesto:</span>{formatearCantitdad(presupuesto)}
+        </p>
+        <p>
+          <span>Disponible:</span>{formatearCantitdad(0)}
+        </p>
+        <p>
+          <span>Gastado:</span>{formatearCantitdad(0)}
         </p>
 
       </div>
