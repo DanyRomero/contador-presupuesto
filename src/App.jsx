@@ -27,7 +27,7 @@ function App() {
         </div>
       ) : null}
       
-      {modal && <Modal />}
+      {modal && <Modal setModal={setModal} />}
 
     </div>
   );
