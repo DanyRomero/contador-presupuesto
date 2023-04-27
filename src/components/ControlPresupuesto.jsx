@@ -1,6 +1,19 @@
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 
-const ControlPresupuesto = ({presupuesto}) => {
+const ControlPresupuesto = ({presupuesto, gastos}) => {
+
+  const [disponible, setDisponible] = useState(0)
+  const [gastado, setGastado] = useState(0)
+  
+
+  useEffect(()=>{
+    const totalGastado = gastos.reduce((total, gasto)=> gasto.cantidad + total, 0)
+    setGastado(totalGastado)
+    const restante = presupuesto - totalGastado
+    setDisponible(restante)
+  }, [gastos])
+
 
   const formatearCantitdad = (cantidad) =>{
     
@@ -19,10 +32,10 @@ const ControlPresupuesto = ({presupuesto}) => {
           <span>Presupuesto: </span>{formatearCantitdad(presupuesto)}
         </p>
         <p>
-          <span>Disponible: </span>{formatearCantitdad(0)}
+          <span>Disponible: </span>{formatearCantitdad(disponible)}
         </p>
         <p>
-          <span>Gastado: </span>{formatearCantitdad(0)}
+          <span>Gastado: </span>{formatearCantitdad(gastado)}
         </p>
 
       </div>
@@ -32,6 +45,7 @@ const ControlPresupuesto = ({presupuesto}) => {
 
 ControlPresupuesto.propTypes= {
   presupuesto: PropTypes.number,
+  gastos: PropTypes.array,
 };
 
 export default ControlPresupuesto
