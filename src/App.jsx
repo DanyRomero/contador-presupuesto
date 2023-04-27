@@ -1,21 +1,25 @@
 import { useState } from "react";
 import Header from "./components/Header";
-import IconoNuevoGasto from './img/nuevo-gasto.svg'
+import IconoNuevoGasto from "./img/nuevo-gasto.svg";
 import Modal from "./components/Modal";
-
 
 function App() {
   const [presupuesto, setPresupuesto] = useState(0);
   const [isValidPresupuesto, setIsValidPresupuesto] = useState(false);
-  const [modal, setModal] = useState(false)
-  const [animarModal, setAnimarModal] = useState(false)
+  const [modal, setModal] = useState(false);
+  const [animarModal, setAnimarModal] = useState(false);
+  const [gastos, setGastos] = useState([])
 
-  const handleNuevoGasto = () =>{
-    setModal(true)
-    setTimeout(()=>{
-      setAnimarModal(true)
-    }, 500)
-  }
+  const handleNuevoGasto = () => {
+    setModal(true);
+    setTimeout(() => {
+      setAnimarModal(true);
+    }, 500);
+  };
+
+  const guardarGasto = (gasto) => {
+    setGastos([...gastos,gasto])
+  };
 
   return (
     <div>
@@ -27,12 +31,22 @@ function App() {
       />
       {isValidPresupuesto ? (
         <div className="nuevo-gasto">
-          <img src={IconoNuevoGasto} alt="Icono Nuevo Gasto" onClick={handleNuevoGasto}/>
+          <img
+            src={IconoNuevoGasto}
+            alt="Icono Nuevo Gasto"
+            onClick={handleNuevoGasto}
+          />
         </div>
       ) : null}
-      
-      {modal && <Modal animarModal={animarModal} setModal={setModal} setAnimarModal={setAnimarModal} />}
 
+      {modal && (
+        <Modal
+          animarModal={animarModal}
+          setModal={setModal}
+          setAnimarModal={setAnimarModal}
+          guardarGasto={guardarGasto}
+        />
+      )}
     </div>
   );
 }

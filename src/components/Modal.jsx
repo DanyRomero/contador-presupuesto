@@ -1,13 +1,15 @@
-import CerrarBtn from "../img/cerrar.svg";
-import PropTypes from "prop-types";
 import { useState } from "react";
+import PropTypes from "prop-types";
+import CerrarBtn from "../img/cerrar.svg";
+import Mensaje from "./Mensaje";
 
 
-const Modal = ({ setModal, animarModal, setAnimarModal }) => {
+const Modal = ({ setModal, animarModal, setAnimarModal, guardarGasto }) => {
 
   const [nombre, setNombre] = useState('')
   const [cantidad, setCantidad] = useState('')
   const [categoria, setCategoria] = useState('')
+  const [mensaje, setMensaje] = useState('')
 
   const ocultarModal = () => {
     setAnimarModal(false);
@@ -15,14 +17,27 @@ const Modal = ({ setModal, animarModal, setAnimarModal }) => {
       setModal(false);
     }, 500);
   };
-
+ 
+  const handleSubmit = (e) =>{
+    e.preventDefault()
+    if([nombre, cantidad, categoria].includes("")){
+        console.log('falló')
+        setMensaje('Todos los campos son obligatorios')
+        setTimeout(()=>{
+          setMensaje('')
+        },2000)
+        return
+    }
+    guardarGasto({nombre, cantidad, categoria})
+  }
   return (
     <div className="modal">
       <div className="cerrar-modal">
         <img src={CerrarBtn} alt="Cerrar modal" onClick={ocultarModal} />
       </div>
-      <form className={`formulario ${animarModal ? "animar" : "cerrar"}`}>
+      <form className={`formulario ${animarModal ? "animar" : "cerrar"}`} onSubmit={handleSubmit}>
         <legend>Nuevo Gasto</legend>
+        {mensaje && <Mensaje tipo="error">{mensaje}</Mensaje>}
         <div className="campo">
           <label htmlFor="nombre">Nombre Gasto</label>
           <input
@@ -62,6 +77,7 @@ const Modal = ({ setModal, animarModal, setAnimarModal }) => {
         </div>
         <input  type="submit" value="Añadir Gasto"/>
       </form>
+      
     </div>
   );
 };
@@ -70,6 +86,7 @@ Modal.propTypes = {
   setModal: PropTypes.func,
   animarModal: PropTypes.bool,
   setAnimarModal: PropTypes.func,
+  guardarGasto: PropTypes.func
 };
 
 export default Modal;
