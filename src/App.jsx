@@ -11,25 +11,36 @@ function App() {
   const [modal, setModal] = useState(false);
   const [animarModal, setAnimarModal] = useState(false);
   const [gastos, setGastos] = useState([]);
-  const [gastoEditar, setGastoEditar] = useState({})
+  const [gastoEditar, setGastoEditar] = useState({});
 
-  useEffect(()=>{
-    if(Object.keys(gastoEditar).length > 0){
-      handleNuevoGasto()
+  useEffect(() => {
+    if (Object.keys(gastoEditar).length > 0) {
+      setModal(true);
+      setTimeout(() => {
+        setAnimarModal(true);
+      }, 500);
     }
-  },[gastoEditar])
+  }, [gastoEditar]);
 
   const handleNuevoGasto = () => {
     setModal(true);
+    setGastoEditar({});
     setTimeout(() => {
       setAnimarModal(true);
     }, 500);
   };
 
   const guardarGasto = (gasto) => {
-    gasto.id = generarId();
-    gasto.fecha = Date.now();
-    setGastos([...gastos, gasto]);
+    if (gasto.id) {
+      const gastoActualizados = gastos.map((gastoState) =>
+        gastoState.id === gasto.id ? gasto : gastoState
+      );
+      setGastos(gastoActualizados)
+    } else {
+      gasto.id = generarId();
+      gasto.fecha = Date.now();
+      setGastos([...gastos, gasto]);
+    }
     setAnimarModal(false);
     setTimeout(() => {
       setModal(false);
@@ -37,7 +48,7 @@ function App() {
   };
 
   return (
-    <div className={modal ? 'fijar': ''}>
+    <div className={modal ? "fijar" : ""}>
       <Header
         gastos={gastos}
         presupuesto={presupuesto}
@@ -48,7 +59,7 @@ function App() {
       {isValidPresupuesto && (
         <>
           <main>
-            <ListadoGastos gastos={gastos} setGastoEditar= {setGastoEditar}/>
+            <ListadoGastos gastos={gastos} setGastoEditar={setGastoEditar} />
           </main>
           <div className="nuevo-gasto">
             <img
