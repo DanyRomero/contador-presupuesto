@@ -9,6 +9,7 @@ const Modal = ({
   setAnimarModal,
   guardarGasto,
   gastoEditar,
+  setGastoEditar
 }) => {
   const [nombre, setNombre] = useState("");
   const [cantidad, setCantidad] = useState("");
@@ -31,6 +32,7 @@ const Modal = ({
 
   const ocultarModal = () => {
     setAnimarModal(false);
+    setGastoEditar({})
     setTimeout(() => {
       setModal(false);
     }, 500);
@@ -49,7 +51,7 @@ const Modal = ({
     guardarGasto({ nombre, cantidad, categoria, id, fecha });
   };
 
-  
+
   return (
     <div className="modal">
       <div className="cerrar-modal">
@@ -88,7 +90,7 @@ const Modal = ({
             value={categoria}
             onChange={(e) => setCategoria(e.target.value)}
           >
-            <option value="">-- Seleccione --</option>
+            <option value="">-- Todas las Categorías --</option>
             <option value="ahorro">Ahorro</option>
             <option value="comida">Comida</option>
             <option value="casa">Casa</option>
@@ -110,6 +112,7 @@ Modal.propTypes = {
   setAnimarModal: PropTypes.func,
   guardarGasto: PropTypes.func,
   gastoEditar: PropTypes.object,
+  setGastoEditar: PropTypes.func,
 };
 
 export default Modal;
