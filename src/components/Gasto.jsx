@@ -26,7 +26,7 @@ const diccionarioIconos = {
   suscripciones: IconoSuscripciones,
 };
 
-const Gasto = ({ gasto, setGastoEditar }) => {
+const Gasto = ({ gasto, setGastoEditar, eliminarGasto }) => {
 
   const leadingActions = () => (
     <LeadingActions>
@@ -37,7 +37,7 @@ const Gasto = ({ gasto, setGastoEditar }) => {
     <TrailingActions>
       <SwipeAction
         destructive={true}
-        onClick={() => console.info("Eliminar")}
+        onClick={() => eliminarGasto(gasto.id)}
       >
         Eliminar
       </SwipeAction>
@@ -70,5 +70,6 @@ const Gasto = ({ gasto, setGastoEditar }) => {
 Gasto.propTypes = {
   gasto: PropTypes.object,
   setGastoEditar: PropTypes.func,
+  eliminarGasto: PropTypes.func,
 };
 export default Gasto;
